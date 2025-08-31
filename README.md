@@ -19,15 +19,7 @@ O ambiente de desenvolvimento foi projetado para ser configurado de forma rápid
 
 Para iniciar o banco de dados, não é necessário nenhum passo manual de criação de tabelas. O script `start.sh` funciona como um instalador automático. Siga os passos:
 
-1.  **Entre no ambiente Nix:** No terminal, na raiz do projeto, execute o comando:
-
-    ```bash
-    nix-shell
-    ```
-
-    Isso irá carregar todas as ferramentas necessárias, como PHP e Docker Compose.
-
-2.  **Inicie e configure o banco de dados:** Ainda dentro do `nix-shell`, execute o script de inicialização:
+1.  **Inicie e configure o banco de dados:** Ainda dentro do `nix-shell`, execute o script de inicialização:
 
     ```bash
     ./start.sh
