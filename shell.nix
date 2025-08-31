@@ -8,8 +8,8 @@ pkgs.mkShell {
   # Pacotes necessários para o ambiente
   buildInputs = [
     # Core do projeto
-    pkgs.php             # PHP 8.2 (versão moderna)
-    pkgs.phpPackages.composer # Gerenciador de dependências PHP (boa prática)
+    pkgs.php82                  # PHP 8.2 (versão fixada)
+    pkgs.php82Packages.composer # Composer para a versão 8.2 do PHP
 
     # Utilitários de desenvolvimento
     pkgs.git               # Comandos básicos de git

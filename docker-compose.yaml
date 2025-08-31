@@ -1,0 +1,21 @@
+# docker-compose.yml
+
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: ap1_postgres_db
+    restart: on-failure
+    environment:
+      POSTGRES_DB: ap1_filmes
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  # Declara o volume nomeado que será gerenciado pelo Docker.
+  postgres_data:
