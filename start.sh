@@ -1,19 +1,16 @@
 #!/bin/bash
 # start.sh
 
-# Cores...
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 CYAN='\033[0;36m'
 NC='\033[0m'
 
-# Variáveis de Configuração
 DB_CONTAINER_NAME="ap1_postgres_db"
 DB_USER='postgres'
 DB_NAME='ap1_filmes'
 export PGPASSWORD='postgres'
 
-# Funções
 function start_db() {
     echo -e "${GREEN}==> Subindo o container do PostgreSQL...${NC}"
     docker compose up -d
@@ -45,8 +42,6 @@ function start_db() {
 
 function stop_db() {
     echo -e "${YELLOW}==> Parando e removendo o container...${NC}"
-    # Nota: Usamos 'down' sem '--volumes' para que o script idempotente funcione.
-    # Se quiser um reset total, use 'docker compose down --volumes' manualmente.
     docker compose down
     echo -e "${YELLOW}==> Container parado.${NC}"
 }
@@ -59,11 +54,8 @@ function show_help() {
     echo "  -h, --help    Mostra esta ajuda."
 }
 
-# Lógica Principal
 case "$1" in
     -s|--stop) stop_db ;;
     -h|--help) show_help ;;
     *) start_db ;;
 esac
-
-unset PGPASSWORD

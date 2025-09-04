@@ -1,7 +1,5 @@
 -- database.sql
 
--- Apaga as tabelas se elas já existirem, para evitar erros.
--- A ordem é importante por causa da chave estrangeira.
 DROP TABLE IF EXISTS filmes;
 DROP TABLE IF EXISTS generos;
 
@@ -28,7 +26,6 @@ CREATE TABLE filmes (
         ON DELETE SET NULL
 );
 
--- Inserir alguns gêneros para começar (não vai dar erro de duplicidade por causa do DROP TABLE)
 INSERT INTO generos (nome, descricao) VALUES
 ('Ação', 'Filmes com foco em sequências de ação, como lutas e perseguições.'),
 ('Comédia', 'Filmes que buscam provocar o riso no espectador.'),
