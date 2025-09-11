@@ -9,8 +9,8 @@ $acao_form = $is_edit ? 'editar_filme' : 'cadastrar_filme';
 $id_filme = $filme_para_edicao['id'] ?? '';
 $titulo_filme = $filme_para_edicao['titulo'] ?? '';
 $sinopse_filme = $filme_para_edicao['sinopse'] ?? '';
-$ano_filme = $filme_para_edicao['ano'] ?? '';
-$duracao_filme = $filme_para_edicao['duracao'] ?? '';
+$ano_filme = $filme_para_edicao['ano_lancamento'] ?? ''; 
+$duracao_filme = $filme_para_edicao['duracao_minutos'] ?? '';
 $genero_id_filme = $filme_para_edicao['genero_id'] ?? '';
 $destaque_filme = $filme_para_edicao['destaque'] ?? false;
 $imagem_atual = $filme_para_edicao['caminho_imagem'] ?? '';
@@ -68,7 +68,7 @@ $imagem_atual = $filme_para_edicao['caminho_imagem'] ?? '';
       <input type="file" id="imagem" name="imagem" accept="image/*">
       <?php if ($is_edit && $imagem_atual): ?>
       <p style="margin-top: 10px;">Imagem atual:</p>
-      <img src="src/uploads/<?= htmlspecialchars($imagem_atual) ?>" alt=" atual"
+      <img src="src/uploads/<?= htmlspecialchars($imagem_atual) ?>" alt="Pôster atual"
         style="max-width: 100px; border-radius: 5px;">
       <?php endif; ?>
     </div>

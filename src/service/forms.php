@@ -9,40 +9,42 @@ require_once '../config/conexao.php';
 require_once '../repository/genero.php';
 require_once '../repository/filme.php';
 
-// DENTRO DE forms.php - CORRIGIDO
 define('REDIRECT_GENEROS', '../../index.php?page=listar_generos');
 define('REDIRECT_FILMES', '../../index.php?page=listar_filmes');
 define('UPLOAD_DIR', '../uploads/');
 
 $acao = $_POST['acao'] ?? $_GET['acao'] ?? '';
 
-// --- FUNÇÕES AUXILIARES (Específicas para Filmes) ---
-
 /**
  * Gerencia o upload da imagem do filme.
  * @param array $arquivo O array $_FILES['imagem'].
- * @param string|null $imagem_atual O caminho da imagem existente (para edições).
- * @return string|false|null O novo caminho da imagem, o caminho antigo ou false em caso de erro.
+ * @param string|null $imagem_atual O nome do arquivo da imagem existente.
+ * @return string|false O novo nome do arquivo ou o nome do arquivo antigo. Retorna false em caso de erro de upload.
  */
-function gerenciarUploadImagem($arquivo, $imagem_atual_path = null)
+function gerenciarUploadImagem($arquivo, $imagem_atual = null)
 {
-    if (isset($arquivo) && $arquivo['error'] === UPLOAD_ERR_OK) {
-        // Se já existe uma imagem, remove o arquivo antigo
-        if ($imagem_atual_path && file_exists(UPLOAD_DIR . basename($imagem_atual_path))) {
-            unlink(UPLOAD_DIR . basename($imagem_atual_path));
+
+    if (isset($arquivo) && $arquivo['error'] === UPLOAD_ERR_OK && !empty($arquivo['name'])) {
+
+        $caminho_antigo = $imagem_atual ? UPLOAD_DIR . $imagem_atual : null;
+
+
+        if ($caminho_antigo && file_exists($caminho_antigo)) {
+            unlink($caminho_antigo);
         }
 
         $nome_arquivo = uniqid('filme_') . '_' . basename($arquivo['name']);
+        $novo_caminho = UPLOAD_DIR . $nome_arquivo;
 
-        // Move para o diretório de uploads
-        if (move_uploaded_file($arquivo['tmp_name'], UPLOAD_DIR . $nome_arquivo)) {
-            return $nome_arquivo; // RETORNA APENAS O NOME DO ARQUIVO
+        if (move_uploaded_file($arquivo['tmp_name'], $novo_caminho)) {
+            return $nome_arquivo;
+        } else {
+            return false;
         }
-        return false; // Falha no upload
     }
-    // Se não houver novo upload, retorna o nome do arquivo antigo
-    return basename($imagem_atual_path);
+    return $imagem_atual;
 }
+
 
 switch ($acao) {
 
@@ -78,13 +80,18 @@ switch ($acao) {
         $genero_id = $_POST['genero_id'] ?? 0;
         $destaque = isset($_POST['destaque']) ? 1 : 0;
 
-        $imagem_path = gerenciarUploadImagem($_FILES['imagem']);
+        $nome_imagem = gerenciarUploadImagem($_FILES['imagem']);
 
-        if ($imagem_path && cadastrarFilme($titulo, $sinopse, $ano, $duracao, $genero_id, $imagem_path, $destaque)) {
-            $_SESSION['mensagem'] = ['tipo' => 'sucesso', 'texto' => 'Filme cadastrado com sucesso!'];
+        if ($nome_imagem !== false) {
+            if (cadastrarFilme($titulo, $sinopse, $ano, $duracao, $genero_id, $nome_imagem, $destaque)) {
+                $_SESSION['mensagem'] = ['tipo' => 'sucesso', 'texto' => 'Filme cadastrado com sucesso!'];
+            } else {
+                $_SESSION['mensagem'] = ['tipo' => 'erro', 'texto' => 'Erro ao cadastrar o filme.'];
+            }
         } else {
-            $_SESSION['mensagem'] = ['tipo' => 'erro', 'texto' => 'Erro ao cadastrar o filme.'];
+            $_SESSION['mensagem'] = ['tipo' => 'erro', 'texto' => 'Erro no upload da imagem.'];
         }
+
         header('Location: ' . REDIRECT_FILMES);
         exit;
 
@@ -92,19 +99,23 @@ switch ($acao) {
         $id = $_POST['id'] ?? 0;
         $titulo = $_POST['titulo'] ?? '';
         $sinopse = $_POST['sinopse'] ?? '';
-        $ano = $_POST['ano_lancamento'] ?? '';
-        $duracao = $_POST['duracao_minutos'] ?? '';
+        $ano = $_POST['ano'] ?? '';
+        $duracao = $_POST['duracao'] ?? '';
         $genero_id = $_POST['genero_id'] ?? 0;
         $imagem_atual = $_POST['imagem_atual'] ?? null;
         $destaque = isset($_POST['destaque']) ? 1 : 0;
 
-
         $nome_imagem = gerenciarUploadImagem($_FILES['imagem'], $imagem_atual);
 
-        if ($nome_imagem && atualizarFilme($id, $titulo, $sinopse, $ano, $duracao, $genero_id, $nome_imagem, $destaque)) {
-            $_SESSION['mensagem'] = ['tipo' => 'sucesso', 'texto' => 'Filme atualizado com sucesso!'];
+        if ($nome_imagem !== false) {
+            if (atualizarFilme($id, $titulo, $sinopse, $ano, $duracao, $genero_id, $nome_imagem, $destaque)) {
+                $_SESSION['mensagem'] = ['tipo' => 'sucesso', 'texto' => 'Filme atualizado com sucesso!'];
+            } else {
+                $_SESSION['mensagem'] = ['tipo' => 'erro', 'texto' => 'Erro ao atualizar o filme.'];
+            }
         } else {
-            $_SESSION['mensagem'] = ['tipo' => 'erro', 'texto' => 'Erro ao atualizar o filme.'];
+            // Se gerenciarUploadImagem retornou false, significa que houve um erro no upload
+            $_SESSION['mensagem'] = ['tipo' => 'erro', 'texto' => 'Ocorreu um erro com o upload da nova imagem.'];
         }
         header('Location: ' . REDIRECT_FILMES);
         exit;
@@ -114,17 +125,16 @@ switch ($acao) {
         $filme = buscarFilmePorId($id);
 
         if ($filme) {
-            // CORREÇÃO 1: Usando a chave correta 'caminho_imagem'
             $imagem_path = $filme['caminho_imagem'];
 
             if (deletarFilme($id)) {
-                // CORREÇÃO 2: Usando o caminho completo com UPLOAD_DIR para apagar o arquivo
+
                 if ($imagem_path && file_exists(UPLOAD_DIR . $imagem_path)) {
                     unlink(UPLOAD_DIR . $imagem_path);
                 }
                 $_SESSION['mensagem'] = ['tipo' => 'sucesso', 'texto' => 'Filme excluído com sucesso!'];
             } else {
-                $_SESSION['mensagem'] = ['tipo' => 'erro', 'texto' => 'Erro ao excluir o filme.'];
+                $_SESSION['mensagem'] = ['tipo' => 'erro', 'texto' => 'Erro ao excluir o filme do banco de dados.'];
             }
         } else {
             $_SESSION['mensagem'] = ['tipo' => 'erro', 'texto' => 'Filme não encontrado.'];
