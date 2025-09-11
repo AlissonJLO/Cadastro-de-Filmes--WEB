@@ -1,5 +1,4 @@
 <?php
-// Chama a função do seu repositório para buscar os filmes com o nome do gênero
 $filmes = listarFilmesComGenero();
 ?>
 
@@ -22,16 +21,16 @@ $filmes = listarFilmesComGenero();
       <?php foreach ($filmes as $filme): ?>
       <tr>
         <td>
-          <img src="src/uploads/<?= basename(htmlspecialchars($filme['imagem'])) ?>" alt="Pôster"
-            class="poster-pequeno">
+          <img src="src/uploads/<?= htmlspecialchars($filme['caminho_imagem']) ?>"
+            alt="Pôster de <?= htmlspecialchars($filme['titulo']) ?>" class="poster-pequeno">
         </td>
         <td><?= htmlspecialchars($filme['titulo']) ?></td>
-        <td><?= htmlspecialchars($filme['ano']) ?></td>
-        <td><?= htmlspecialchars($filme['nome_genero']) ?></td>
+        <td><?= htmlspecialchars($filme['ano_lancamento']) ?></td>
+        <td><?= htmlspecialchars($filme['nome_genero'] ?? 'Sem Gênero') ?></td>
         <td>
           <div class="acoes">
-            <a href="index.php?page=visualizar_filme&id=<?= $filme['id'] ?>" class="acao-btn btn-visualizar">Ver</a>
-            <a href="index.php?page=editar_filme&id=<?= $filme['id'] ?>" class="acao-btn btn-editar">Editar</a>
+            <a href="index.php?page=cadastrar_filme&edit=true&id=<?= $filme['id'] ?>"
+              class="acao-btn btn-editar">Editar</a>
             <a href="src/service/forms.php?acao=deletar_filme&id=<?= $filme['id'] ?>" class="acao-btn btn-excluir"
               onclick="return confirm('Tem certeza?');">
               Excluir

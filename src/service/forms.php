@@ -76,6 +76,7 @@ switch ($acao) {
         $ano = $_POST['ano'] ?? '';
         $duracao = $_POST['duracao'] ?? '';
         $genero_id = $_POST['genero_id'] ?? 0;
+        $destaque = isset($_POST['destaque']) ? 1 : 0;
 
         $imagem_path = gerenciarUploadImagem($_FILES['imagem']);
 
@@ -111,10 +112,13 @@ switch ($acao) {
         $filme = buscarFilmePorId($id);
 
         if ($filme) {
-            $imagem_path = $filme['imagem'];
+            // CORREÇÃO 1: Usando a chave correta 'caminho_imagem'
+            $imagem_path = $filme['caminho_imagem'];
+
             if (deletarFilme($id)) {
-                if (file_exists($imagem_path)) {
-                    unlink($imagem_path);
+                // CORREÇÃO 2: Usando o caminho completo com UPLOAD_DIR para apagar o arquivo
+                if ($imagem_path && file_exists(UPLOAD_DIR . $imagem_path)) {
+                    unlink(UPLOAD_DIR . $imagem_path);
                 }
                 $_SESSION['mensagem'] = ['tipo' => 'sucesso', 'texto' => 'Filme excluído com sucesso!'];
             } else {
@@ -123,6 +127,7 @@ switch ($acao) {
         } else {
             $_SESSION['mensagem'] = ['tipo' => 'erro', 'texto' => 'Filme não encontrado.'];
         }
+
         header('Location: ' . REDIRECT_FILMES);
         exit;
 

@@ -22,10 +22,14 @@ function cadastrarFilme($titulo, $sinopse, $ano, $duracao, $genero_id, $imagem, 
 function listarFilmesComGenero()
 {
     $pdo = conectarBd();
-    $stmt = $pdo->query("SELECT f.*, g.nome AS nome_genero FROM filmes f INNER JOIN generos g ON f.genero_id = g.id ORDER BY f.titulo ASC");
+    $sql = "SELECT f.*, g.nome AS nome_genero
+            FROM filmes f
+            LEFT JOIN generos g ON f.genero_id = g.id
+            ORDER BY f.titulo ASC";
+
+    $stmt = $pdo->query($sql);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-
 function listarFilmesEmDestaque()
 {
     $pdo = conectarBd();
