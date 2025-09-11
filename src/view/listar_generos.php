@@ -22,7 +22,7 @@ $generos = buscarTodosGeneros();
           <td><?= htmlspecialchars($genero['descricao']) ?></td>
           <td>
             <div class="acoes">
-              <a href="index.php?page=editar_genero&id=<?= $genero['id'] ?>" class="acao-btn btn-editar">Editar</a>
+              <a href="index.php?page=editar_genero&id=<?= $genero['id'] ?>&nome=<?= $genero['nome'] ?>" class="acao-btn btn-editar">Editar</a>
               <a href="src/service/forms.php?acao=deletar_genero&id=<?= $genero['id'] ?>" class="acao-btn btn-excluir"
                 onclick="return confirm('Tem certeza que deseja excluir este gênero?');">
                 Excluir
