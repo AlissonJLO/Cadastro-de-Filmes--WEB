@@ -1,18 +1,17 @@
 <?php
-// Pega o ID do filme da URL. É importante validar se é um número.
+
 $id_filme = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
-// Se o ID for inválido ou não existir, redireciona ou mostra erro
+
 if (!$id_filme) {
-  // Você pode criar uma página de erro ou redirecionar
+
   echo "<h1>Filme não encontrado!</h1>";
   exit;
 }
 
-// Busca os dados completos do filme usando a nova função
+
 $filme = buscarFilmeCompletoPorId($id_filme);
 
-// Se a busca não retornar um filme, exibe uma mensagem
 if (!$filme) {
   echo "<h1>Filme não encontrado!</h1>";
   exit;

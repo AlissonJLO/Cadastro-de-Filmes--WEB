@@ -3,7 +3,7 @@ function cadastrarFilme($titulo, $sinopse, $ano, $duracao, $genero_id, $imagem, 
 {
     $pdo = conectarBd();
 
-    // 2. Adicione a coluna 'destaque' na instrução SQL
+    
     $sql = "INSERT INTO filmes (titulo, sinopse, ano_lancamento, duracao_minutos, genero_id, caminho_imagem, destaque)
             VALUES (:titulo, :sinopse, :ano, :duracao, :genero_id, :imagem, :destaque)";
 
