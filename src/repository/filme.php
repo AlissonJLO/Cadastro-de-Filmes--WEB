@@ -33,7 +33,12 @@ function listarFilmesComGenero()
 function listarFilmesEmDestaque()
 {
     $pdo = conectarBd();
-    $stmt = $pdo->query("SELECT f.caminho_imagem AS imagem FROM filmes f WHERE f.destaque = TRUE");
+    // A query foi ajustada para buscar os dados necessários e limitar o resultado.
+    $stmt = $pdo->query("SELECT f.titulo, f.caminho_imagem
+                         FROM filmes f
+                         WHERE f.destaque = TRUE
+                         ORDER BY f.id DESC
+                         LIMIT 5");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
