@@ -3,7 +3,7 @@ function cadastrarFilme($titulo, $sinopse, $ano, $duracao, $genero_id, $imagem, 
 {
     $pdo = conectarBd();
 
-    // 2. Adicione a coluna 'destaque' na instrução SQL
+    
     $sql = "INSERT INTO filmes (titulo, sinopse, ano_lancamento, duracao_minutos, genero_id, caminho_imagem, destaque)
             VALUES (:titulo, :sinopse, :ano, :duracao, :genero_id, :imagem, :destaque)";
 
@@ -33,7 +33,12 @@ function listarFilmesComGenero()
 function listarFilmesEmDestaque()
 {
     $pdo = conectarBd();
-    $stmt = $pdo->query("SELECT f.caminho_imagem AS imagem FROM filmes f WHERE f.destaque = TRUE");
+    // A query foi ajustada para buscar os dados necessários e limitar o resultado.
+    $stmt = $pdo->query("SELECT f.titulo, f.caminho_imagem
+                         FROM filmes f
+                         WHERE f.destaque = TRUE
+                         ORDER BY f.id DESC
+                         LIMIT 5");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
@@ -46,11 +51,22 @@ function buscarFilmePorId($id)
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-function atualizarFilme($id, $titulo, $sinopse, $ano, $duracao, $genero_id, $imagem)
+function atualizarFilme($id, $titulo, $sinopse, $ano, $duracao, $genero_id, $imagem, $destaque)
 {
     $pdo = conectarBd();
-    $sql = "UPDATE filmes SET titulo = :titulo, sinopse = :sinopse, ano = :ano, duracao = :duracao, genero_id = :genero_id, imagem = :imagem WHERE id = :id";
+    // Adicione a coluna 'destaque' ao UPDATE
+    $sql = "UPDATE filmes SET
+                titulo = :titulo,
+                sinopse = :sinopse,
+                ano_lancamento = :ano,
+                duracao_minutos = :duracao,
+                genero_id = :genero_id,
+                caminho_imagem = :imagem,
+                destaque = :destaque
+            WHERE id = :id";
+
     $stmt = $pdo->prepare($sql);
+    // Adicione o bind do :destaque
     return $stmt->execute([
         ':id' => $id,
         ':titulo' => $titulo,
@@ -58,7 +74,8 @@ function atualizarFilme($id, $titulo, $sinopse, $ano, $duracao, $genero_id, $ima
         ':ano' => $ano,
         ':duracao' => $duracao,
         ':genero_id' => $genero_id,
-        ':imagem' => $imagem
+        ':imagem' => $imagem,
+        ':destaque' => $destaque
     ]);
 }
 
@@ -68,4 +85,16 @@ function deletarFilme($id)
     $sql = "DELETE FROM filmes WHERE id = :id";
     $stmt = $pdo->prepare($sql);
     return $stmt->execute([':id' => $id]);
+}
+
+function buscarFilmeCompletoPorId($id)
+{
+    $pdo = conectarBd();
+    $sql = "SELECT f.*, g.nome AS nome_genero
+            FROM filmes f
+            LEFT JOIN generos g ON f.genero_id = g.id
+            WHERE f.id = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':id' => $id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }

@@ -235,3 +235,148 @@ body {
 .form-group-checkbox input[type='checkbox'] {
   width: auto; /* Faz o checkbox ter seu tamanho natural */
 }
+
+/* --- ESTILOS DA TABELA DE LISTAGEM --- */
+
+.tabela-listagem {
+  width: 100%;
+  border-collapse: collapse; /* Remove o espaço entre as células */
+  margin-top: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  overflow: hidden; /* Garante que o border-radius aplique na tabela toda */
+}
+
+.tabela-listagem th,
+.tabela-listagem td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.tabela-listagem th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Centraliza o conteúdo das células verticalmente para um melhor alinhamento */
+.tabela-listagem td {
+  vertical-align: middle;
+}
+
+/* --- O ESTILO PARA O PÔSTER NA LISTAGEM --- */
+.poster-pequeno {
+  width: 70px; /* Largura fixa para o pôster */
+  height: 105px; /* Altura fixa para manter a proporção de pôster */
+  object-fit: cover; /* ESSENCIAL: Redimensiona a imagem para caber sem distorcer. Ele vai cortar o excesso. */
+  border-radius: 5px; /* Bordas arredondadas para um visual mais suave */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil para dar profundidade */
+  display: block; /* Evita espaços em branco extras abaixo da imagem */
+}
+
+.acoes {
+  display: flex;
+  gap: 10px; /* Espaço entre os botões de ação */
+}
+
+.acao-btn {
+  padding: 6px 12px;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 0.9em;
+  transition: opacity 0.3s;
+}
+
+.acao-btn:hover {
+  opacity: 0.8;
+}
+
+.btn-editar {
+  background-color: #007bff; /* Azul */
+}
+
+.btn-excluir {
+  background-color: #dc3545; /* Vermelho */
+}
+
+.btn-visualizar {
+  background-color: #17a2b8; /* Ciano */
+}
+
+/* --- ESTILOS DA PÁGINA DE DETALHES DO FILME --- */
+
+.filme-detalhes-container {
+  display: flex;
+  gap: 30px; /* Espaço entre o pôster e as informações */
+  padding: 20px;
+}
+
+.poster-container {
+  flex-shrink: 0; /* Impede que o container do poster encolha */
+  width: 350px;
+}
+
+.poster-container img {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.info-container {
+  flex-grow: 1; /* Faz o container de informações ocupar o espaço restante */
+  display: flex;
+  flex-direction: column;
+}
+
+.info-container h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 2.5em;
+  color: #333;
+}
+
+.info-meta {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  color: #666;
+  font-size: 1.1em;
+}
+
+.info-meta span {
+  padding-right: 20px;
+  border-right: 1px solid #ddd;
+}
+
+.info-meta span:last-child {
+  border-right: none;
+}
+
+.info-sinopse h3 {
+  margin-bottom: 5px;
+  font-size: 1.4em;
+  color: #444;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 5px;
+}
+
+.info-sinopse p {
+  line-height: 1.6;
+  text-align: justify;
+}
+
+.info-acoes {
+  margin-top: auto; /* Empurra as ações para o final do container */
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+.info-acoes h3 {
+  margin-bottom: 10px;
+}
+.info-acoes .acao-btn {
+  margin-right: 10px;
+}
