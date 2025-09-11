@@ -1,0 +1,226 @@
+/* --- ESTILOS GERAIS E FONTES --- */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte mais moderna */
+  background-color: #f4f7f6; /* Cor de fundo suave para a página inteira */
+  color: #333;
+}
+
+/* --- ESTRUTURA PRINCIPAL DO GRID (SEU CÓDIGO ESTAVA BOM AQUI) --- */
+.container-grid {
+  display: grid;
+  min-width: 1080px;
+  min-height: 100vh;
+  grid-template-areas:
+    'cabecalho cabecalho'
+    'menu conteudo'
+    'rodape rodape';
+  grid-template-columns: 240px 1fr; /* Aumentei um pouco o menu */
+  grid-template-rows: 120px 1fr 80px; /* Ajustei a altura do header/footer */
+  gap: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* --- ESTILOS DOS COMPONENTES PRINCIPAIS --- */
+
+/* REMOVIDO o seletor que colocava borda em tudo */
+.cabecalho,
+.menu-lateral,
+.conteudo-principal,
+.rodape {
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #ffffff; /* Fundo branco padrão para os blocos */
+  border-radius: 8px; /* Bordas arredondadas */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Sombra suave para dar profundidade */
+}
+
+/* --- CABEÇALHO --- */
+.cabecalho {
+  grid-area: cabecalho;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.cabecalho h1 {
+  margin: 0;
+}
+.cabecalho p {
+  margin: 5px 0 0;
+  color: #666;
+}
+
+/* --- MENU LATERAL --- */
+.menu-lateral {
+  grid-area: menu;
+  padding-top: 30px; /* Mais espaço no topo */
+}
+
+.menu-lateral h2 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.2em;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.menu-lateral ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-lateral ul li a {
+  display: block;
+  padding: 12px 15px;
+  margin-bottom: 8px;
+  background-color: #f0f0f0;
+  color: #333;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.3s, color 0.3s; /* Transição suave */
+}
+
+.menu-lateral ul li a:hover {
+  background-color: #007bff; /* Azul vibrante no hover */
+  color: #ffffff;
+}
+
+/* --- CONTEÚDO PRINCIPAL --- */
+.conteudo-principal {
+  grid-area: conteudo;
+}
+
+.destaque {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.destaque-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start; /* Alinha à esquerda */
+  gap: 25px;
+}
+
+/* --- ITEM DE DESTAQUE (CARD DO FILME) --- */
+.destaque-item {
+  width: 180px;
+  border-radius: 8px;
+  text-align: center;
+  position: relative; /* Essencial para o título absoluto */
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #e9e9e9; /* Cor de fundo caso a imagem não carregue */
+  /* CORREÇÃO: Garante que o container tenha altura para o título se posicionar */
+  min-height: 250px;
+  display: flex; /* Ajuda a centralizar o alt text da imagem se ela quebrar */
+  align-items: center;
+  justify-content: center;
+}
+
+.destaque-item img {
+  width: 100%;
+  height: 100%; /* Ocupa toda a altura do container */
+  object-fit: cover;
+  display: block;
+}
+
+/* CORREÇÃO NO TÍTULO */
+.destaque-item h3 {
+  position: absolute; /* Posição absoluta em relação ao pai (.destaque-item) */
+  bottom: 0;
+  left: 0;
+  width: 100%; /* Garante que o fundo ocupe toda a largura */
+  margin: 0;
+  padding: 12px 5px; /* Mais preenchimento vertical */
+  background-color: rgba(0, 0, 0, 0.75); /* Fundo um pouco mais escuro */
+  color: white;
+  font-size: 0.9em;
+  box-sizing: border-box; /* Garante que o padding não estoure a largura */
+}
+
+/* --- RODAPÉ --- */
+.rodape {
+  grid-area: rodape;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9em;
+  color: #777;
+}
+
+/* --- ESTILOS DE FORMULÁRIO --- */
+.form-container {
+  max-width: 700px;
+  margin: 0 auto; /* Centraliza o formulário */
+  padding: 20px;
+}
+
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.form-container p {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #666;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+}
+
+.form-group input[type='text'],
+.form-group input[type='number'],
+.form-group input[type='file'],
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box; /* Garante que o padding não altere a largura total */
+  font-size: 1em;
+}
+
+.form-group input[type='file'] {
+  padding: 8px; /* Ajuste específico para input de arquivo */
+}
+
+/* --- ESTILOS DE BOTÃO --- */
+.btn {
+  display: inline-block;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  width: 100%; /* Faz o botão ocupar a largura toda */
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}

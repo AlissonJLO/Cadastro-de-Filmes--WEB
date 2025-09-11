@@ -9,8 +9,9 @@ require_once '../config/conexao.php';
 require_once '../repository/genero.php';
 require_once '../repository/filme.php';
 
-define('REDIRECT_GENEROS', '../../index.php?page=generos_listar');
-define('REDIRECT_FILMES', '../../index.php?page=filmes_listar');
+// DENTRO DE forms.php - CORRIGIDO
+define('REDIRECT_GENEROS', '../../index.php?page=listar_generos');
+define('REDIRECT_FILMES', '../../index.php?page=listar_filmes');
 define('UPLOAD_DIR', '../uploads/');
 
 $acao = $_POST['acao'] ?? $_GET['acao'] ?? '';
@@ -23,23 +24,28 @@ $acao = $_POST['acao'] ?? $_GET['acao'] ?? '';
  * @param string|null $imagem_atual O caminho da imagem existente (para edições).
  * @return string|false|null O novo caminho da imagem, o caminho antigo ou false em caso de erro.
  */
-function gerenciarUploadImagem($arquivo, $imagem_atual = null) {
+function gerenciarUploadImagem($arquivo, $imagem_atual_path = null)
+{
     if (isset($arquivo) && $arquivo['error'] === UPLOAD_ERR_OK) {
-        if ($imagem_atual && file_exists($imagem_atual)) {
-            unlink($imagem_atual);
+        // Se já existe uma imagem, remove o arquivo antigo
+        if ($imagem_atual_path && file_exists(UPLOAD_DIR . basename($imagem_atual_path))) {
+            unlink(UPLOAD_DIR . basename($imagem_atual_path));
         }
+
         $nome_arquivo = uniqid('filme_') . '_' . basename($arquivo['name']);
-        $caminho_imagem = UPLOAD_DIR . $nome_arquivo;
-        if (move_uploaded_file($arquivo['tmp_name'], $caminho_imagem)) {
-            return $caminho_imagem;
+
+        // Move para o diretório de uploads
+        if (move_uploaded_file($arquivo['tmp_name'], UPLOAD_DIR . $nome_arquivo)) {
+            return $nome_arquivo; // RETORNA APENAS O NOME DO ARQUIVO
         }
-        return false;
+        return false; // Falha no upload
     }
-    return $imagem_atual;
+    // Se não houver novo upload, retorna o nome do arquivo antigo
+    return basename($imagem_atual_path);
 }
 
 switch ($acao) {
-    
+
     case 'cadastrar_genero':
         $nome = $_POST['nome'] ?? '';
         $descricao = $_POST['descricao'] ?? '';
@@ -79,7 +85,7 @@ switch ($acao) {
         $ano = $_POST['ano'] ?? '';
         $duracao = $_POST['duracao'] ?? '';
         $genero_id = $_POST['genero_id'] ?? 0;
-        
+
         $imagem_path = gerenciarUploadImagem($_FILES['imagem']);
 
         if ($imagem_path && cadastrarFilme($titulo, $sinopse, $ano, $duracao, $genero_id, $imagem_path)) {
@@ -112,7 +118,7 @@ switch ($acao) {
     case 'deletar_filme':
         $id = $_GET['id'] ?? 0;
         $filme = buscarFilmePorId($id);
-        
+
         if ($filme) {
             $imagem_path = $filme['imagem'];
             if (deletarFilme($id)) {
