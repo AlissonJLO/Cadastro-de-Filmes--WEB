@@ -13,6 +13,7 @@ CREATE TABLE generos (
 -- Entidade Principal: filmes
 CREATE TABLE filmes (
     id SERIAL PRIMARY KEY,
+    destaque boolean NOT NULL,
     titulo VARCHAR(255) NOT NULL,
     sinopse TEXT,
     ano_lancamento INT,
