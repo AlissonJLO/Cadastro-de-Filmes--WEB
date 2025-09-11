@@ -1,16 +1,16 @@
-<?php require_once 'src/config/config.php';
-?>
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 
 <head>
   <meta charset="UTF-8">
-  <title>Catálogo de Filmes</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cine-Teca</title>
+  <link rel="stylesheet" href="src/css/style.css">
 </head>
 
 <body>
-  <div class="container">
-    <header>
-      <h1>Catálogo de Filmes</h1>
+  <div class="container-grid">
+    <header class="cabecalho">
+      <h1>Cine-Teca: Sua Biblioteca de Filmes</h1>
+      <p>Um sistema para gerenciar seus filmes e gêneros favoritos</p>
     </header>
