@@ -46,11 +46,22 @@ function buscarFilmePorId($id)
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-function atualizarFilme($id, $titulo, $sinopse, $ano, $duracao, $genero_id, $imagem)
+function atualizarFilme($id, $titulo, $sinopse, $ano, $duracao, $genero_id, $imagem, $destaque)
 {
     $pdo = conectarBd();
-    $sql = "UPDATE filmes SET titulo = :titulo, sinopse = :sinopse, ano = :ano, duracao = :duracao, genero_id = :genero_id, imagem = :imagem WHERE id = :id";
+    // Adicione a coluna 'destaque' ao UPDATE
+    $sql = "UPDATE filmes SET
+                titulo = :titulo,
+                sinopse = :sinopse,
+                ano_lancamento = :ano,
+                duracao_minutos = :duracao,
+                genero_id = :genero_id,
+                caminho_imagem = :imagem,
+                destaque = :destaque
+            WHERE id = :id";
+
     $stmt = $pdo->prepare($sql);
+    // Adicione o bind do :destaque
     return $stmt->execute([
         ':id' => $id,
         ':titulo' => $titulo,
@@ -58,7 +69,8 @@ function atualizarFilme($id, $titulo, $sinopse, $ano, $duracao, $genero_id, $ima
         ':ano' => $ano,
         ':duracao' => $duracao,
         ':genero_id' => $genero_id,
-        ':imagem' => $imagem
+        ':imagem' => $imagem,
+        ':destaque' => $destaque
     ]);
 }
 

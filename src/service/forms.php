@@ -92,14 +92,16 @@ switch ($acao) {
         $id = $_POST['id'] ?? 0;
         $titulo = $_POST['titulo'] ?? '';
         $sinopse = $_POST['sinopse'] ?? '';
-        $ano = $_POST['ano'] ?? '';
-        $duracao = $_POST['duracao'] ?? '';
+        $ano = $_POST['ano_lancamento'] ?? '';
+        $duracao = $_POST['duracao_minutos'] ?? '';
         $genero_id = $_POST['genero_id'] ?? 0;
         $imagem_atual = $_POST['imagem_atual'] ?? null;
+        $destaque = isset($_POST['destaque']) ? 1 : 0;
 
-        $imagem_path = gerenciarUploadImagem($_FILES['imagem'], $imagem_atual);
 
-        if ($imagem_path && atualizarFilme($id, $titulo, $sinopse, $ano, $duracao, $genero_id, $imagem_path)) {
+        $nome_imagem = gerenciarUploadImagem($_FILES['imagem'], $imagem_atual);
+
+        if ($nome_imagem && atualizarFilme($id, $titulo, $sinopse, $ano, $duracao, $genero_id, $nome_imagem, $destaque)) {
             $_SESSION['mensagem'] = ['tipo' => 'sucesso', 'texto' => 'Filme atualizado com sucesso!'];
         } else {
             $_SESSION['mensagem'] = ['tipo' => 'erro', 'texto' => 'Erro ao atualizar o filme.'];
