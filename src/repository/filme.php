@@ -1,10 +1,22 @@
 <?php
-function cadastrarFilme($titulo, $sinopse, $ano, $duracao, $genero_id, $imagem)
+function cadastrarFilme($titulo, $sinopse, $ano, $duracao, $genero_id, $imagem, $destaque)
 {
     $pdo = conectarBd();
-    $sql = "INSERT INTO filmes (titulo, sinopse, ano, duracao, genero_id, imagem) VALUES (:titulo, :sinopse, :ano, :duracao, :genero_id, :imagem)";
+
+    // 2. Adicione a coluna 'destaque' na instrução SQL
+    $sql = "INSERT INTO filmes (titulo, sinopse, ano_lancamento, duracao_minutos, genero_id, caminho_imagem, destaque)
+            VALUES (:titulo, :sinopse, :ano, :duracao, :genero_id, :imagem, :destaque)";
+
     $stmt = $pdo->prepare($sql);
-    return $stmt->execute([':titulo' => $titulo, ':sinopse' => $sinopse, ':ano' => $ano, ':duracao' => $duracao, ':genero_id' => $genero_id, ':imagem' => $imagem]);
+    return $stmt->execute([
+        ':titulo' => $titulo,
+        ':sinopse' => $sinopse,
+        ':ano' => $ano,
+        ':duracao' => $duracao,
+        ':genero_id' => $genero_id,
+        ':imagem' => $imagem,
+        ':destaque' => $destaque
+    ]);
 }
 
 function listarFilmesComGenero()

@@ -12,7 +12,7 @@ require_once 'src/layout/menu.php';
 ?>
 
 <main class="conteudo-principal">
-    <?php
+  <?php
     // Bloco para exibir mensagens de sucesso ou erro (seu código estava correto)
     if (isset($_SESSION['mensagem'])) {
         $tipo = $_SESSION['mensagem']['tipo']; // 'sucesso' ou 'erro'
@@ -40,7 +40,9 @@ require_once 'src/layout/menu.php';
 
     // 3. VERIFICA se a página solicitada está na nossa lista de permissões
     if (in_array($pagina, $paginas_permitidas)) {
-
+        if ($pagina === 'cadastrar_filme' || $pagina === 'editar_filme') {
+            $generos = buscarTodosGeneros(); // Chamando a função do repositório
+        }
         // 4. Monta o caminho para o arquivo da view (caminho corrigido)
         $caminho_pagina = "src/view/{$pagina}.php";
 

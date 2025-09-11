@@ -8,7 +8,7 @@ function cadastrarGenero($nome, $descricao)
     return $stmt->execute([':nome' => $nome, ':descricao' => $descricao]);
 }
 
-function listarGeneros()
+function buscarTodosGeneros()
 {
     $pdo = conectarBd();
     $stmt = $pdo->query("SELECT * FROM generos ORDER BY nome ASC");
