@@ -1,5 +1,5 @@
 <?php
-$generos = listarGeneros();
+$generos = buscarTodosGeneros();
 ?>
 
 <div class="listagem-container">
