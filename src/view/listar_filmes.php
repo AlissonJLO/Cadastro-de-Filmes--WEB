@@ -29,6 +29,7 @@ $filmes = listarFilmesComGenero();
         <td><?= htmlspecialchars($filme['nome_genero'] ?? 'Sem Gênero') ?></td>
         <td>
           <div class="acoes">
+            <a href="index.php?page=visualizar_filme&id=<?= $filme['id'] ?>" class="acao-btn btn-visualizar">Ver</a>
             <a href="index.php?page=cadastrar_filme&id=<?= $filme['id'] ?>" class="acao-btn btn-editar">Editar</a>
             <a href="src/service/forms.php?acao=deletar_filme&id=<?= $filme['id'] ?>" class="acao-btn btn-excluir"
               onclick="return confirm('Tem certeza?');">

@@ -86,3 +86,15 @@ function deletarFilme($id)
     $stmt = $pdo->prepare($sql);
     return $stmt->execute([':id' => $id]);
 }
+
+function buscarFilmeCompletoPorId($id)
+{
+    $pdo = conectarBd();
+    $sql = "SELECT f.*, g.nome AS nome_genero
+            FROM filmes f
+            LEFT JOIN generos g ON f.genero_id = g.id
+            WHERE f.id = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':id' => $id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
