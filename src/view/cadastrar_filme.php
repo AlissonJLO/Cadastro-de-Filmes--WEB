@@ -1,7 +1,3 @@
-<?php
-$generos = listarGeneros($pdo);
-?>
-
 <div class="form-container">
   <h2>Cadastrar Novo Filme</h2>
   <p>Preencha os campos abaixo para adicionar um novo filme à Cine-Teca.</p>
@@ -35,9 +31,13 @@ $generos = listarGeneros($pdo);
       <select id="genero_id" name="genero_id" required>
         <option value="">Selecione um gênero</option>
         <?php foreach ($generos as $genero): ?>
-          <option value="<?= $genero['id'] ?>"><?= htmlspecialchars($genero['nome']) ?></option>
+        <option value="<?= $genero['id'] ?>"><?= htmlspecialchars($genero['nome']) ?></option>
         <?php endforeach; ?>
       </select>
+    </div>
+    <div class="form-group form-group-checkbox">
+      <input type="checkbox" id="destaque" name="destaque" value="1">
+      <label for="destaque">Marcar como Destaque</label>
     </div>
 
     <div class="form-group">

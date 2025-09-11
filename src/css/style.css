@@ -224,3 +224,14 @@ body {
 .btn-primary:hover {
   background-color: #0056b3;
 }
+
+/* Adicione ao seu arquivo CSS principal */
+.form-group-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espaço entre o checkbox e o texto */
+}
+
+.form-group-checkbox input[type='checkbox'] {
+  width: auto; /* Faz o checkbox ter seu tamanho natural */
+}
