@@ -46,7 +46,17 @@ function gerenciarUploadImagem($arquivo, $imagem_atual_path = null)
 
 switch ($acao) {
 
+    case 'cadastrar_genero':
+        $nome = $_POST['nome'] ?? '';
+        $descricao = $_POST['descricao'] ?? '';
 
+        if (cadastrarGenero($nome, $descricao)) {
+            $_SESSION['mensagem'] = ['tipo' => 'sucesso', 'texto' => 'Genero cadastrado com sucesso!'];
+        } else {
+            $_SESSION['mensagem'] = ['tipo' => 'erro', 'texto' => 'Erro ao cadastrar o Genero.'];
+        }
+        header('Location: ' . REDIRECT_GENEROS);
+        exit;
 
     case 'editar_genero':
         $id = $_POST['id'] ?? 0;
